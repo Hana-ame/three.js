@@ -1,26 +1,42 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import Stats from 'three/addons/libs/stats.module.js'
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
 
+const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+const controls = new OrbitControls( camera, renderer.domElement );
 
-camera.position.z = 5;
+//controls.update() must be called after any manual changes to the camera's transform
+camera.position.set( 0, 2, 1 );
+controls.update();
+
+
+const geometry = new THREE.BoxGeometry()
+const material = new THREE.MeshNormalMaterial({ wireframe: true })
+
+const cube = new THREE.Mesh(geometry, material)
+scene.add(cube)
+
+const stats = new Stats()
+document.body.appendChild(stats.dom)
 
 function animate() {
-  requestAnimationFrame(animate);
 
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
+	requestAnimationFrame( animate );
 
-  renderer.render(scene, camera);
+
+  // 後始末
+
+	// required if controls.enableDamping or controls.autoRotate are set to true
+	controls.update();
+
+	renderer.render( scene, camera );
+
 }
 
 animate();
