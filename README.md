@@ -245,3 +245,185 @@ animate();
 ### 结果
 看到一个旋转的绿色正方体。  
 接下来试着作出拖动效果。
+
+## draw
+
+<details>
+  <summary>我需要绘制一系列的球，使用three.js</summary>
+  好的，以下代码示例展示了如何在 Three.js 中绘制一系列球体：
+
+```javascript
+import * as THREE from 'three';
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// 设置球体数量
+const numSpheres = 10;
+
+// 创建球体几何体
+const geometry = new THREE.SphereGeometry(0.5, 32, 32); // 半径为 0.5，分段数为 32
+
+// 创建材质
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // 红色材质
+
+// 创建球体数组
+const spheres = [];
+
+// 循环创建球体
+for (let i = 0; i < numSpheres; i++) {
+  const sphere = new THREE.Mesh(geometry, material);
+
+  // 设置球体位置
+  sphere.position.set(
+    Math.random() * 5 - 2.5, // 随机 X 坐标，范围为 -2.5 到 2.5
+    Math.random() * 5 - 2.5, // 随机 Y 坐标，范围为 -2.5 到 2.5
+    Math.random() * 5 - 2.5  // 随机 Z 坐标，范围为 -2.5 到 2.5
+  );
+
+  spheres.push(sphere);
+  scene.add(sphere);
+}
+
+camera.position.z = 5;
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  // 旋转球体
+  spheres.forEach(sphere => {
+    sphere.rotation.x += 0.01;
+    sphere.rotation.y += 0.01;
+  });
+
+  renderer.render(scene, camera);
+}
+
+animate();
+```
+
+**解释：**
+
+1. **设置球体数量：** 使用 `numSpheres` 变量来定义要绘制的球体数量。
+2. **创建球体几何体：** 使用 `THREE.SphereGeometry` 创建球体几何体，参数分别为半径、经线分段数和纬线分段数。
+3. **创建材质：** 使用 `THREE.MeshBasicMaterial` 创建材质，并设置颜色。
+4. **创建球体数组：** 使用 `spheres` 数组来存储所有球体。
+5. **循环创建球体：** 使用 `for` 循环创建指定数量的球体，并设置每个球体的随机位置。
+6. **添加球体到场景：** 将每个球体添加到场景中。
+7. **设置相机位置：** 将相机向后移动 5 个单位。
+8. **动画函数：** 在 `animate` 函数中，循环旋转每个球体，并使用 `renderer.render` 渲染场景。
+
+**运行代码：**
+
+- 将代码保存为一个 `.js` 文件，例如 `spheres.js`。
+- 在浏览器中打开该文件，你应该可以看到一系列随机位置的红色球体，并且它们会不断旋转。
+
+**其他选项：**
+
+- 你可以更改球体的半径、颜色、材质等属性来定制你的球体。
+- 你可以根据需要调整球体的随机位置范围。
+- 你可以添加其他动画效果，例如移动、缩放等。
+
+希望这些信息对你有帮助！
+</details>
+
+<details>
+  <summary>能否为这样的sphere添加光影</summary>
+  当然可以！要为 Three.js 中的球体添加光影，你需要添加光源和使用支持光照的材质。以下代码示例展示了如何为一系列球体添加光影：
+
+```javascript
+import * as THREE from 'three';
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// 设置球体数量
+const numSpheres = 10;
+
+// 创建球体几何体
+const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+
+// 创建材质（使用支持光照的材质）
+const material = new THREE.MeshLambertMaterial({ color: 0xff0000 }); 
+
+// 创建球体数组
+const spheres = [];
+
+// 循环创建球体
+for (let i = 0; i < numSpheres; i++) {
+  const sphere = new THREE.Mesh(geometry, material);
+
+  // 设置球体位置
+  sphere.position.set(
+    Math.random() * 5 - 2.5,
+    Math.random() * 5 - 2.5,
+    Math.random() * 5 - 2.5 
+  );
+
+  spheres.push(sphere);
+  scene.add(sphere);
+}
+
+// 添加光源
+const light = new THREE.DirectionalLight(0xffffff, 1); // 创建一个方向光
+light.position.set(1, 1, 1); // 设置光源位置
+scene.add(light);
+
+camera.position.z = 5;
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  // 旋转球体
+  spheres.forEach(sphere => {
+    sphere.rotation.x += 0.01;
+    sphere.rotation.y += 0.01;
+  });
+
+  renderer.render(scene, camera);
+}
+
+animate();
+```
+
+**解释：**
+
+1. **使用支持光照的材质：** 我们将 `MeshBasicMaterial` 替换为 `MeshLambertMaterial`，它支持光照效果。
+2. **添加光源：** 我们使用 `THREE.DirectionalLight` 创建一个方向光，并将其添加到场景中。方向光会从一个方向照射到场景中的物体，产生阴影效果。
+3. **设置光源位置：** 我们将光源的位置设置为 (1, 1, 1)，以便它从一个角度照射到球体。
+
+**运行代码：**
+
+- 将代码保存为一个 `.js` 文件，例如 `spheres_with_light.js`。
+- 在浏览器中打开该文件，你应该可以看到一系列红色球体，并且它们现在有光影效果，看起来更加真实。
+
+**其他选项：**
+
+- 你可以使用其他类型的灯光，例如 `THREE.AmbientLight` 或 `THREE.PointLight`，来创建不同的光照效果。
+- 你可以调整光源的颜色、强度和位置来改变光照效果。
+- 你可以添加更多光源来创建更复杂的光照场景。
+
+希望这些信息对你有帮助！
+</details>
+
+总之调整了材质之后，稍微调整了一下相机的位置，就可以了
+
+<details>
+  <summary></summary>
+</details>
+
+<details>
+  <summary></summary>
+</details>
+
+<details>
+  <summary></summary>
+</details>
