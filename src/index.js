@@ -35,17 +35,6 @@ function drawSphereAt(x,y,z) {
   spheres.push(sphere)
 }
 
-let numSpheres = 4;
-
-for (let i = 0; i < numSpheres; i++) {
-  // 设置球体位置
-  drawSphereAt(
-    Math.random() * 5 - 2.5, // 随机 X 坐标，范围为 -2.5 到 2.5
-    Math.random() * 5 - 2.5, // 随机 Y 坐标，范围为 -2.5 到 2.5
-    Math.random() * 5 - 2.5  // 随机 Z 坐标，范围为 -2.5 到 2.5
-  );
-}
-
 function getMiddlePosition(v1, v2) {
   console.log(v1,v2);
   console.log( new THREE.Vector3().lerpVectors(v1, v2, 0.5) );
@@ -89,22 +78,6 @@ function drawCylinderBetween(v1, v2) {
   scene.add(cylinder);
 }
 
-// 循环创建圆柱体，连接球体
-for (let i = 0; i < numSpheres - 1; i++) {
-  
-  // 计算圆柱体位置
-  const startPosition = spheres[i].position;
-  const endPosition = spheres[i + 1].position;
-
-  drawCylinderBetween(startPosition, endPosition);
-}
-
-const geometry = new THREE.BoxGeometry()
-const material = new THREE.MeshNormalMaterial({ wireframe: true })
-
-const cube = new THREE.Mesh(geometry, material)
-scene.add(cube)
-
 const stats = new Stats()
 document.body.appendChild(stats.dom)
 
@@ -117,6 +90,96 @@ const lightGray = new THREE.DirectionalLight(0xffffff, 0.3); // 创建一个方�
 lightGray.position.set(-100, 1, 1); // 设置光源位置
 scene.add(lightGray);
 
+drawSphereAt(0,0,0); // 0
+drawSphereAt(1,1,1); // 1
+drawCylinderBetween(spheres[0].position,spheres[1].position);
+drawSphereAt(2,2,0); // 2
+drawSphereAt(0,2,2); // 3
+drawSphereAt(2,0,2); // 4
+drawCylinderBetween(spheres[2].position,spheres[1].position);
+drawCylinderBetween(spheres[3].position,spheres[1].position);
+drawCylinderBetween(spheres[4].position,spheres[1].position);
+drawSphereAt(3,3,1); // 5
+drawSphereAt(1,3,3); // 6
+drawSphereAt(3,1,3); // 7
+drawCylinderBetween(spheres[2].position,spheres[5].position);
+drawCylinderBetween(spheres[3].position,spheres[6].position);
+drawCylinderBetween(spheres[4].position,spheres[7].position);
+drawSphereAt(4,4,0); // 8
+drawSphereAt(0,4,4); // 9
+drawSphereAt(4,0,4); // 10
+drawCylinderBetween(spheres[8].position,spheres[5].position);
+drawCylinderBetween(spheres[9].position,spheres[6].position);
+drawCylinderBetween(spheres[10].position,spheres[7].position);
+drawSphereAt(2,2,4); // 11
+drawSphereAt(4,2,2); // 12
+drawSphereAt(2,4,2); // 13
+drawCylinderBetween(spheres[12].position,spheres[5].position);
+drawCylinderBetween(spheres[13].position,spheres[5].position);
+drawCylinderBetween(spheres[11].position,spheres[6].position);
+drawCylinderBetween(spheres[13].position,spheres[6].position);
+drawCylinderBetween(spheres[11].position,spheres[7].position);
+drawCylinderBetween(spheres[12].position,spheres[7].position);
+drawSphereAt(3,1,-1); // 14
+drawSphereAt(1,3,-1); // 15
+drawCylinderBetween(spheres[2].position,spheres[14].position);
+drawCylinderBetween(spheres[2].position,spheres[15].position);
+drawSphereAt(-1,1,3); // 16
+drawSphereAt(-1,3,1); // 17
+drawCylinderBetween(spheres[3].position,spheres[16].position);
+drawCylinderBetween(spheres[3].position,spheres[17].position);
+drawSphereAt(3,-1,1); // 18
+drawSphereAt(1,-1,3); // 19
+drawCylinderBetween(spheres[4].position,spheres[18].position);
+drawCylinderBetween(spheres[4].position,spheres[19].position);
+drawSphereAt(2,0,-2); // 20
+drawSphereAt(0,2,-2); // 21
+drawCylinderBetween(spheres[20].position,spheres[14].position);
+drawCylinderBetween(spheres[21].position,spheres[15].position);
+drawSphereAt(-2,0,2); // 22
+drawSphereAt(-2,2,0); // 23
+drawCylinderBetween(spheres[22].position,spheres[16].position);
+drawCylinderBetween(spheres[23].position,spheres[17].position);
+drawSphereAt(2,-2,0); // 24
+drawSphereAt(0,-2,2); // 25
+drawCylinderBetween(spheres[24].position,spheres[18].position);
+drawCylinderBetween(spheres[25].position,spheres[19].position);
+{
+  const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
+
+  const cubeMaterial = new THREE.MeshBasicMaterial({
+    color: 0x00ff00, // 绿色
+    transparent: true, // 使材质透明
+    opacity: 0.3 // 设置透明度为50%
+  });
+
+
+  // 创建cube
+  const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+
+  // 设置正方体的位置
+  cube.position.set(1, 1, 1); // 设置x, y, z坐标
+
+  scene.add(cube)
+}
+{
+  const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
+
+  const cubeMaterial = new THREE.MeshBasicMaterial({
+    color: 0xff00ff, // 绿色
+    transparent: true, // 使材质透明
+    opacity: 0.3 // 设置透明度为50%
+  });
+
+
+  // 创建cube
+  const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+
+  // 设置正方体的位置
+  cube.position.set(1, -1, 1); // 设置x, y, z坐标
+
+  scene.add(cube)
+}
 function animate() {
 
 	requestAnimationFrame( animate );
