@@ -188,6 +188,7 @@ purpleBox(3,1,1)
 greenBox(3,3,1)
 greenBox(3,1,3)
 greenBox(1,3,3)
+purpleBox(3,3,3)
 
 function animate() {
 
