@@ -144,13 +144,13 @@ drawSphereAt(2,-2,0); // 24
 drawSphereAt(0,-2,2); // 25
 drawCylinderBetween(spheres[24].position,spheres[18].position);
 drawCylinderBetween(spheres[25].position,spheres[19].position);
-{
+function greenBox (x,y,z) {
   const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
 
   const cubeMaterial = new THREE.MeshBasicMaterial({
     color: 0x00ff00, // 绿色
     transparent: true, // 使材质透明
-    opacity: 0.3 // 设置透明度为50%
+    opacity: 0.1 // 设置透明度为50%
   });
 
 
@@ -158,11 +158,11 @@ drawCylinderBetween(spheres[25].position,spheres[19].position);
   const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
   // 设置正方体的位置
-  cube.position.set(1, 1, 1); // 设置x, y, z坐标
+  cube.position.set(x, y, z); // 设置x, y, z坐标
 
   scene.add(cube)
 }
-{
+function purpleBox (x,y,z) {
   const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
 
   const cubeMaterial = new THREE.MeshBasicMaterial({
@@ -176,10 +176,19 @@ drawCylinderBetween(spheres[25].position,spheres[19].position);
   const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
   // 设置正方体的位置
-  cube.position.set(1, -1, 1); // 设置x, y, z坐标
+  cube.position.set(x, y, z); // 设置x, y, z坐标
 
   scene.add(cube)
 }
+
+greenBox(1,1,1)
+purpleBox(1,1,3)
+purpleBox(1,3,1)
+purpleBox(3,1,1)
+greenBox(3,3,1)
+greenBox(3,1,3)
+greenBox(1,3,3)
+
 function animate() {
 
 	requestAnimationFrame( animate );
