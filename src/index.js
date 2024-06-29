@@ -23,7 +23,7 @@ function drawSphereAt(x,y,z) {
   // 创建球体几何体
   const geometry = new THREE.SphereGeometry(0.5, 32, 32); // 半径为 0.5，分段数为 32
   // 创建材质
-  const material = new THREE.MeshLambertMaterial({ color: 0xff0000 }); 
+  const material = new THREE.MeshLambertMaterial({ color: 0xff3333 }); 
 
   const sphere = new THREE.Mesh(geometry, material);
   
@@ -52,14 +52,11 @@ function getMiddlePosition(v1, v2) {
   return new THREE.Vector3().lerpVectors(v1, v2, 0.5);
 }
 
-
-// 循环创建圆柱体，连接球体
-for (let i = 0; i < numSpheres - 1; i++) {
-  
+function drawCylinderBetween(v1, v2) {
   // 计算圆柱体位置
-  const startPosition = spheres[i].position;
-  const endPosition = spheres[i + 1].position;
-
+  const startPosition = v1;
+  const endPosition = v2;
+    
   // 计算端点之间的向量
   const direction = new THREE.Vector3().subVectors(endPosition, startPosition);
 
@@ -70,7 +67,7 @@ for (let i = 0; i < numSpheres - 1; i++) {
   const cylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, length); // 半径为 0.1，高度为 1，分段数为 32
 
   // 创建圆柱体材质
-  const cylinderMaterial = new THREE.MeshLambertMaterial({ color: 0x0000ff }); // 蓝色材质
+  const cylinderMaterial = new THREE.MeshLambertMaterial({ color: 0x3333ff }); // 蓝色材质
 
   const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
 
@@ -90,6 +87,16 @@ for (let i = 0; i < numSpheres - 1; i++) {
 
   cylinders.push(cylinder);
   scene.add(cylinder);
+}
+
+// 循环创建圆柱体，连接球体
+for (let i = 0; i < numSpheres - 1; i++) {
+  
+  // 计算圆柱体位置
+  const startPosition = spheres[i].position;
+  const endPosition = spheres[i + 1].position;
+
+  drawCylinderBetween(startPosition, endPosition);
 }
 
 const geometry = new THREE.BoxGeometry()
